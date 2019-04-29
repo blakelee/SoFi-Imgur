@@ -9,7 +9,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_search_result.view.*
 import net.blakelee.model.Image
 
-class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+class SearchAdapter(context: Context, private val callback: (Image) -> Unit) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     private val items = mutableListOf<Image>()
 
@@ -44,6 +44,7 @@ class SearchAdapter(context: Context) : RecyclerView.Adapter<SearchAdapter.Searc
         fun onBind(item: Image) {
             picasso.load(item.link).into(image)
             title.text = item.title
+            itemView.setOnClickListener { callback(item) }
         }
     }
 }

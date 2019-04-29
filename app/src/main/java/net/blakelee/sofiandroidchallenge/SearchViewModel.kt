@@ -1,6 +1,5 @@
 package net.blakelee.sofiandroidchallenge
 
-import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import net.blakelee.model.Image
@@ -12,17 +11,18 @@ class SearchViewModel(private val imageModel: ImageModel) {
     private val query = BehaviorSubject.createDefault("")
     private val page = BehaviorSubject.createDefault(0)
 
-    private val queryDebounce: Observable<SearchResults> = query.debounce(250, TimeUnit.MILLISECONDS)
-        .flatMap { query -> page.onNext(0)
+    private val queryDebounce: Observable<SearchResults> = query.filter { it.isNotBlank() }
+        .debounce(250, TimeUnit.MILLISECONDS)
+        .switchMap { query ->
+            page.onNext(0)
             Observable.concat(
                 Observable.just(SearchResults.Loading),
                 loadImage(0, query).map(SearchResults::Replace).toObservable()
             )
-
         }
         .onErrorReturn { SearchResults.Error }
 
-    private val loadNext: Observable<SearchResults> = page
+    private val loadNext: Observable<SearchResults> = page.distinctUntilChanged()
         .filter { page ->
             val query = query.value
             page != 0 && query != null && query.count() > 0
@@ -32,7 +32,8 @@ class SearchViewModel(private val imageModel: ImageModel) {
                 Observable.just(SearchResults.Loading),
                 loadImage(page, query.value!!).map(SearchResults::Append).toObservable()
             )
-        }.onErrorReturn { SearchResults.Error }
+        }
+        .onErrorReturn { SearchResults.Error }
 
     fun results() = Observable.merge<SearchResults>(queryDebounce, loadNext)
 
