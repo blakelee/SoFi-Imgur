@@ -1,8 +1,9 @@
 package net.blakelee.sofiandroidchallenge
 
+import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
-import net.blakelee.model.ImageDetails
+import net.blakelee.model.Image
 import net.blakelee.model.ImageModel
 import java.util.concurrent.TimeUnit
 
@@ -11,9 +12,8 @@ class SearchViewModel(private val imageModel: ImageModel) {
     private val query = BehaviorSubject.createDefault("")
     private val page = BehaviorSubject.createDefault(0)
 
-    private val loadDebounce: Observable<SearchResults> = query.debounce(250, TimeUnit.MILLISECONDS)
-        .flatMap { query ->
-            page.onNext(0)
+    private val queryDebounce: Observable<SearchResults> = query.debounce(250, TimeUnit.MILLISECONDS)
+        .flatMap { query -> page.onNext(0)
             Observable.concat(
                 Observable.just(SearchResults.Loading),
                 loadImage(0, query).map(SearchResults::Replace).toObservable()
@@ -22,20 +22,19 @@ class SearchViewModel(private val imageModel: ImageModel) {
         }
         .onErrorReturn { SearchResults.Error }
 
-    private val loadNext: Observable<SearchResults> = page.flatMap { page ->
-        val query = query.value
-        if (page == 0 || query == null || query.count() == 0) {
-            Observable.never<SearchResults>()
-        } else {
+    private val loadNext: Observable<SearchResults> = page
+        .filter { page ->
+            val query = query.value
+            page != 0 && query != null && query.count() > 0
+        }
+        .flatMap { page ->
             Observable.concat(
                 Observable.just(SearchResults.Loading),
-                loadImage(page, query).map(SearchResults::Append).toObservable()
+                loadImage(page, query.value!!).map(SearchResults::Append).toObservable()
             )
-        }
-    }.onErrorReturn { SearchResults.Error }
+        }.onErrorReturn { SearchResults.Error }
 
-
-    fun results() = Observable.merge<SearchResults>(loadDebounce, loadNext)
+    fun results() = Observable.merge<SearchResults>(queryDebounce, loadNext)
 
     fun loadImages(query: String) {
         this.query.onNext(query)
@@ -51,7 +50,7 @@ class SearchViewModel(private val imageModel: ImageModel) {
 
 sealed class SearchResults {
     object Loading : SearchResults()
-    class Replace(val results: List<ImageDetails>) : SearchResults()
-    class Append(val results: List<ImageDetails>) : SearchResults()
+    class Replace(val results: List<Image>) : SearchResults()
+    class Append(val results: List<Image>) : SearchResults()
     object Error : SearchResults()
 }

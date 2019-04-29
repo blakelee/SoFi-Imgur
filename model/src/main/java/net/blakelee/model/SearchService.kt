@@ -12,6 +12,8 @@ interface SearchService {
                    @Query("q") query: String): Single<Results>
 }
 
-data class Results(val data: List<ImageDetails>, val success: Boolean, val status: Int)
+data class Results(val data: List<AlbumDetails>, val success: Boolean, val status: Int)
 
-data class ImageDetails(val title: String, val id: String)
+data class AlbumDetails(val is_album: Boolean, val title: String?, val link: String?, val images: List<Image>?)
+
+data class Image(var title: String?, val link: String)
