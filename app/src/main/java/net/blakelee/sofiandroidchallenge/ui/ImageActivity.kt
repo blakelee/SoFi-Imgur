@@ -1,4 +1,4 @@
-package net.blakelee.sofiandroidchallenge
+package net.blakelee.sofiandroidchallenge.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.Window
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_image.*
+import net.blakelee.sofiandroidchallenge.R
 
 class ImageActivity : AppCompatActivity() {
 

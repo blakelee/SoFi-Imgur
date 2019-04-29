@@ -1,4 +1,4 @@
-package net.blakelee.model
+package net.blakelee.model.services.config
 
 import okhttp3.Interceptor
 import okhttp3.Response

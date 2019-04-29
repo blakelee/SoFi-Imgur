@@ -1,4 +1,4 @@
-package net.blakelee.model
+package net.blakelee.model.business
 
 interface ModelProvider {
     val imageModel: ImageModel

@@ -1,6 +1,8 @@
-package net.blakelee.model
+package net.blakelee.model.business
 
 import io.reactivex.Single
+import net.blakelee.model.services.Image
+import net.blakelee.model.services.SearchService
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response

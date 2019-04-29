@@ -1,4 +1,4 @@
-package net.blakelee.model
+package net.blakelee.model.services
 
 import io.reactivex.Single
 import retrofit2.http.GET

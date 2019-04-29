@@ -1,4 +1,4 @@
-package net.blakelee.sofiandroidchallenge
+package net.blakelee.sofiandroidchallenge.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_search.*
+import net.blakelee.sofiandroidchallenge.*
+import net.blakelee.sofiandroidchallenge.adapters.SearchAdapter
+import net.blakelee.sofiandroidchallenge.providers.Provider
+import net.blakelee.sofiandroidchallenge.viewmodels.SearchResults
+import net.blakelee.sofiandroidchallenge.viewmodels.SearchViewModel
 
 const val TITLE = "title"
 const val LINK = "link"

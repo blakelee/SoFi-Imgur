@@ -1,7 +1,10 @@
-package net.blakelee.sofiandroidchallenge
+package net.blakelee.sofiandroidchallenge.app
 
 import android.app.Application
-import net.blakelee.model.RetrofitClient
+import net.blakelee.model.services.client.RetrofitClient
+import net.blakelee.sofiandroidchallenge.config.DefaultConfig
+import net.blakelee.sofiandroidchallenge.providers.AppModelProvider
+import net.blakelee.sofiandroidchallenge.providers.Provider
 
 class App : Application() {
 

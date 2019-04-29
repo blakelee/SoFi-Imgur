@@ -1,4 +1,4 @@
-package net.blakelee.model
+package net.blakelee.model.services.config
 
 interface ServiceConfig {
     val baseUrl: String

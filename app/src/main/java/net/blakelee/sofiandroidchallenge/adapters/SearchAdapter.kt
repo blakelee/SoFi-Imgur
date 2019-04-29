@@ -1,4 +1,4 @@
-package net.blakelee.sofiandroidchallenge
+package net.blakelee.sofiandroidchallenge.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_search_result.view.*
-import net.blakelee.model.Image
+import net.blakelee.model.services.Image
+import net.blakelee.sofiandroidchallenge.R
 
 class SearchAdapter(context: Context, private val callback: (Image) -> Unit) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 

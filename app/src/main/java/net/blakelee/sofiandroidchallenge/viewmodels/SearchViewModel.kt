@@ -1,9 +1,9 @@
-package net.blakelee.sofiandroidchallenge
+package net.blakelee.sofiandroidchallenge.viewmodels
 
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
-import net.blakelee.model.Image
-import net.blakelee.model.ImageModel
+import net.blakelee.model.services.Image
+import net.blakelee.model.business.ImageModel
 import java.util.concurrent.TimeUnit
 
 class SearchViewModel(private val imageModel: ImageModel) {
@@ -51,7 +51,7 @@ class SearchViewModel(private val imageModel: ImageModel) {
 
 sealed class SearchResults {
     object Loading : SearchResults()
-    class Replace(val results: List<Image>) : SearchResults()
-    class Append(val results: List<Image>) : SearchResults()
+    data class Replace(val results: List<Image>) : SearchResults()
+    data class Append(val results: List<Image>) : SearchResults()
     object Error : SearchResults()
 }
